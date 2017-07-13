@@ -82,6 +82,10 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
     elsif job_name.include? "iOS"
 
+      job_name.sub! "iOS_", ""
+
+      job_name.gsub! "_", " "
+
       send_event("doughnutchart_ios_" + ios_job_index.to_s, { labels: labels, datasets: data, title: job_name,
                                                               start: start, duration: duration, options: options})
       ios_job_index += 1
