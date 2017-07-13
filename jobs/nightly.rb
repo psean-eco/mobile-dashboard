@@ -3,7 +3,7 @@ require 'json'
 require_relative "constants"
 
 # :first_in sets how long it takes before the job is first run. In this case, it is run immediately
-SCHEDULER.every '10m' do
+SCHEDULER.every '2s' do
 
   platform_counts = Hash.new({ value: 0 })
 
