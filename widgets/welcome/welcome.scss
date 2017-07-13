@@ -1,18 +1,22 @@
 .widget-welcome {
   background-color: #4bbe79;
+  background-image: url('ecobee_logo_bee_lite.png');
+  background-size: 300px 300px;
+  background-repeat: no-repeat;
+  background-position: right;
 
   .title {
     color: #ffffff;
     font-size: 66px;
+    text-align: left;
+    padding-left: 40px;
   }
 
   .subtitle {
-  	color: #ffffff;
-  }
-
-  .date {
   	color: #297045;
   	font-size: 40px;
+    text-align: right;
+    padding-right: 40px;
   }
 
 }

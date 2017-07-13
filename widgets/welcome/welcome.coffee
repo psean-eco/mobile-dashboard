@@ -2,8 +2,6 @@ class Dashing.Welcome extends Dashing.Widget
 
   ready: ->
     # This is fired when the widget is done being rendered
-    today = new Date()
-    @set('date', today.toDateString())
 
   onData: (data) ->
     # Handle incoming data

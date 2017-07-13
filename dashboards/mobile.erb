@@ -10,13 +10,12 @@ $(function() {
 <div class="gridster">
   <ul>
     <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-      <div data-id="ecobee" data-view="Image" data-image="/ecobee_logo_bee.png" style="background-color:#ffffff"></div>
+      <div data-view="Clock"></div>
+      <i class="fa fa-clock-o icon-background"></i>
     </li>
-
     <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
-      <div data-view="Welcome" data-title="Welcome ecobee," data-subtitle="to the QA Mobile Dashboard!"></div>
+      <div data-view="Welcome" data-title="Welcome," data-subtitle="to the QA Mobile Dashboard!"></div>
     </li>
-
     <% @count = 1 %>
     <% (1..7).each do |i| %>
         <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
