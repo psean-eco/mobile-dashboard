@@ -1,31 +1,26 @@
 require 'net/https'
 require 'json'
+require_relative "constants"
 
 # :first_in sets how long it takes before the job is first run. In this case, it is run immediately
-SCHEDULER.every '10s', :first_in => 0 do |job|
+SCHEDULER.every '1m', :first_in => 0 do |job|
 
   http = Net::HTTP.new("jenkinsqa.ecobee.com")
-  jobs = [ "Android_Hyperion_Canary_Test_5.1",
-           "Android_Hyperion_Distribution_Test",
-           "Android_Hyperion_Test_5.1",
-           "Android_Hyperion_Test_6.0",
-           "Android_Hyperion_Test_6.0.1",
-           "Android_Hyperion_Test_7.1.1",
-           "Android_Hyperion_Installation_Wizard_Test_6.0.1",
-           "iOS_Hyperion_Canary_Test_10.0.1",
-           "iOS_Hyperion_Distribution_Test",
-           "iOS_Hyperion_Tests_10.0.1",
-           "iOS_Hyperion_Tests_10.2.1",
-           "iOS_Hyperion_Tests_10.3.2",
-           "iOS_Hyperion_Tests_9.3.2",
-           "iOS_Hyperion_Installation_Wizard_Test_10.2.1" ]
 
   android_job_index = 1
   ios_job_index = 1
 
-  jobs.each do |job_name|
+  JOBS.each do |job_name|
 
-    # first get last run status, if red mark as invalid
+    # get last run build information (start time etc.)
+    response = http.request(Net::HTTP::Get.new("/jenkins/view/3.%20Mobile/job/" + job_name + "/lastCompletedBuild/api/json?pretty=true"))
+    results = JSON.parse(response.body)
+    timestamp = results["timestamp"]
+    start = Time.at(timestamp.to_i / 1000).to_s
+    start =~ /(.*) (.*)?/
+    start = [ $1 << ' ', $2 ][0].strip
+
+    # first get last run status, report appropriate message if disabled, aborted or failed
     response = http.request(Net::HTTP::Get.new("/jenkins/view/3.%20Mobile/job/" + job_name + "/api/json?pretty=true"))
     results = JSON.parse(response.body)
     status = results["color"]
@@ -74,14 +69,6 @@ SCHEDULER.every '10s', :first_in => 0 do |job|
     end
 
     options = { }
-
-    # get last run build information (start time etc.)
-    response = http.request(Net::HTTP::Get.new("/jenkins/view/3.%20Mobile/job/" + job_name + "/lastCompletedBuild/api/json?pretty=true"))
-    results = JSON.parse(response.body)
-    timestamp = results["timestamp"]
-    start = Time.at(timestamp.to_i / 1000).to_s
-    start =~ /(.*) (.*)?/
-    start = [ $1 << ' ', $2 ][0].strip
 
     if job_name.include? "Android"
 
