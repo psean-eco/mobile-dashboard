@@ -18,19 +18,19 @@ $(function() {
     </li>
 
     <% @count = 1 %>
-    <% (1..4).each do |i| %>
+    <% (1..7).each do |i| %>
         <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
-          <div data-id="doughnutchart_android_<%= @count %>" data-view ="DoughnutChart" data-title data-duration data-moreinfo></div>
+          <div data-id="doughnutchart_android_<%= @count %>" data-view ="DoughnutChart" data-title data-start data-duration data-moreinfo></div>
         </li>
-        <%= @count += 1 %>
+        <% @count += 1 %>
     <% end %>
 
     <% @count = 1 %>
-    <% (1..5).each do |i| %>
+    <% (1..7).each do |i| %>
         <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
-          <div data-id="doughnutchart_ios_<%= @count %>" data-view ="DoughnutChart" data-title data-duration data-moreinfo></div>
+          <div data-id="doughnutchart_ios_<%= @count %>" data-view ="DoughnutChart" data-title data-start data-duration data-moreinfo></div>
         </li>
-        <%= @count += 1 %>
+        <% @count += 1 %>
     <% end %>
 
   </ul>
