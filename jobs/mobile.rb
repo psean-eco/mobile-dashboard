@@ -7,8 +7,11 @@ labels = [ 'Fail', 'Pass', 'Skip' ]
 SCHEDULER.every '10s', :first_in => 0 do |job|
 
   http = Net::HTTP.new("jenkinsqa.ecobee.com")
-  jobs = [ "Android_Hyperion_Test_5.1", "Android_Hyperion_Test_6.0", "Android_Hyperion_Test_6.0.1", "Android_Hyperion_Installation_Wizard_Test_6.0.1"]
-  android_job_index = 0
+  jobs = [ "Android_Hyperion_Test_5.1", "Android_Hyperion_Test_6.0", "Android_Hyperion_Test_6.0.1", "Android_Hyperion_Installation_Wizard_Test_6.0.1",
+           "iOS_Hyperion_Tests_10.0.1", "iOS_Hyperion_Tests_10.2.1", "iOS_Hyperion_Tests_10.3.2", "iOS_Hyperion_Tests_9.3.2", "iOS_Hyperion_Installation_Wizard_Test_10.2.1"]
+
+  android_job_index = 1
+  ios_job_index = 1
 
   jobs.each do |job_name|
 
@@ -37,8 +40,15 @@ SCHEDULER.every '10s', :first_in => 0 do |job|
         },
     ]
     options = { }
-    send_event("doughnutchart_android_" + android_job_index.to_s, { labels: labels, datasets: data, title: job_name, duration: Time.at(duration).utc.strftime("%H:%M:%S"), options: options})
-    android_job_index += 1
+
+    if job_name.include? "Android"
+      send_event("doughnutchart_android_" + android_job_index.to_s, { labels: labels, datasets: data, title: job_name, duration: Time.at(duration).utc.strftime("%H:%M:%S"), options: options})
+      android_job_index += 1
+
+    elsif job_name.include? "iOS"
+      send_event("doughnutchart_ios_" + ios_job_index.to_s, { labels: labels, datasets: data, title: job_name, duration: Time.at(duration).utc.strftime("%H:%M:%S"), options: options})
+      ios_job_index += 1
+    end
 
   end
 

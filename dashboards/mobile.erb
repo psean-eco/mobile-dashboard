@@ -16,17 +16,22 @@ $(function() {
     <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
       <div data-view="Welcome" data-title="Welcome ecobee," data-subtitle="to the QA Mobile Dashboard!"></div>
     </li>
-    <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
-      <div data-id="doughnutchart_android_0" data-view ="DoughnutChart" data-title data-duration data-moreinfo></div>
-    </li>
-    <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
-      <div data-id="doughnutchart_android_1" data-view ="DoughnutChart" data-title data-duration data-moreinfo></div>
-    </li>
-    <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
-      <div data-id="doughnutchart_android_2" data-view ="DoughnutChart" data-title data-duration data-moreinfo></div>
-    </li>
-    <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
-      <div data-id="doughnutchart_android_3" data-view ="DoughnutChart" data-title data-duration data-moreinfo></div>
-    </li>
+
+    <% @count = 1 %>
+    <% (1..4).each do |i| %>
+        <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
+          <div data-id="doughnutchart_android_<%= @count %>" data-view ="DoughnutChart" data-title data-duration data-moreinfo></div>
+        </li>
+        <%= @count += 1 %>
+    <% end %>
+
+    <% @count = 1 %>
+    <% (1..5).each do |i| %>
+        <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
+          <div data-id="doughnutchart_ios_<%= @count %>" data-view ="DoughnutChart" data-title data-duration data-moreinfo></div>
+        </li>
+        <%= @count += 1 %>
+    <% end %>
+
   </ul>
 </div>
