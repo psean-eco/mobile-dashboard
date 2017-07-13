@@ -151,6 +151,20 @@ h3 {
   vertical-align: middle;
 }
 
+.widget.android {
+  background-image: url('android.png');
+  background-position: center;
+  background-size: 60px 60px;
+  background-repeat: no-repeat;
+}
+
+.widget.apple {
+  background-image: url('apple.png');
+  background-position: center;
+  background-size: 50px 60px;
+  background-repeat: no-repeat;
+}
+
 .widget.status-warning {
   background-color: $background-warning-color-1;
   @include animation(status-warning-background, 2s, ease, infinite);

@@ -25,14 +25,14 @@ SCHEDULER.every '10s', :first_in => 0 do |job|
         {
             data: [ fail, pass, skip ],
             backgroundColor: [
-                '#F7464A',
-                '#46BFBD',
-                '#FDB45C',
+                '#c9413c',
+                '#4bbe79',
+                '#727272',
             ],
             hoverBackgroundColor: [
-                '#FF6384',
-                '#36A2EB',
-                '#FFCE56',
+                '#e9b1af',
+                '#b4e4c7',
+                '#cccccc',
             ],
         },
     ]
