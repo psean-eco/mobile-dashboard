@@ -72,7 +72,7 @@ SCHEDULER.every '10s', :first_in => 0 do |job|
       ]
 
     end
-    
+
     options = { }
 
     # get last run build information (start time etc.)
@@ -84,6 +84,10 @@ SCHEDULER.every '10s', :first_in => 0 do |job|
     start = [ $1 << ' ', $2 ][0].strip
 
     if job_name.include? "Android"
+
+      job_name.sub! "Android_", ""
+
+      job_name.gsub! "_", " "
 
       send_event("doughnutchart_android_" + android_job_index.to_s, { labels: labels, datasets: data, title: job_name,
                                                                       start: start, duration: duration, options: options})

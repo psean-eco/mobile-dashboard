@@ -3,12 +3,12 @@
 // ----------------------------------------------------------------------------
 $background-color:  #303030;
 
-$title-color:       rgba(255, 255, 255, 0.7);
-$moreinfo-color:    rgba(255, 255, 255, 0.7);
-$updateat-color:    rgba(255, 255, 255, 1);
+$title-color:     white;
+$duration-color:  white;
+$start-color:     rgba(255, 255, 255, 0.7);
 
 // If you want the title at the top, set the position to 'top'
-$title-position:    top;
+$title-position:    bottom;
 
 // ----------------------------------------------------------------------------
 // Widget-doughnut-chart styles
@@ -18,26 +18,29 @@ $title-position:    top;
   background-color: $background-color;
 
   .title {
-    @if $title-position == 'top' {
-      left: 0;
-      right: 0;
-      top: 10px;
-      position: absolute;
-    }
-    @else {
-      position: relative;
-    }
-
-    z-index: 1;
+    font-size: 16px;
     color: $title-color;
+    left: 0;
+    right: 0;
+    bottom: 30px;
+    position: absolute;
   }
 
   .duration {
-    color: black;
+    color: $duration-color;
+    left: 0;
+    right: 0;
+    top: 110px;
+    position: absolute;
   }
 
-  .updated-at {
-    color: $updateat-color;
+  .start {
+    color: $start-color;
+    font-size: 16px;
+    left: 0;
+    right: 0;
+    bottom: 15px;
+    position: absolute;
   }
 
 }
