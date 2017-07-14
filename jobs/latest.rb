@@ -18,6 +18,8 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
   JOBS.each do |job_name, device_info|
 
+    data = []
+
     # get last run build information (start time etc.)
     response = http.request(Net::HTTP::Get.new("/jenkins/view/3.%20Mobile/job/" + job_name + "/lastCompletedBuild/api/json?pretty=true"))
     results = JSON.parse(response.body)
