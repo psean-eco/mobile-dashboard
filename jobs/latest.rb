@@ -13,6 +13,9 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
   running_android = 0
   running_ios = 0
 
+  failed_test_case_tracker_android = Hash.new(0)
+  failed_test_case_tracker_ios = Hash.new(0)
+
   JOBS.each do |job_name, device_info|
 
     # get last run build information (start time etc.)
@@ -64,6 +67,25 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
       response = http.request(Net::HTTP::Get.new("/jenkins/view/3.%20Mobile/job/" + job_name + "/lastCompletedBuild/testReport/api/json?pretty=true"))
       results = JSON.parse(response.body)
+
+      cases = results["suites"][0]["cases"]
+      cases.each do |test_case|
+
+        if test_case["status"].include? "FAILED"
+
+          if job_name.include? "Android"
+
+            failed_test_case_tracker_android[test_case["className"]] += 1
+
+          elsif job_name.include? "iOS"
+
+            failed_test_case_tracker_ios[test_case["className"]] += 1
+
+          end
+
+        end
+
+      end
 
       # retrieving relevant data
       duration = Time.at(results["duration"]).utc.strftime("%H:%M:%S")
@@ -122,5 +144,24 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
   send_event('running_android',   { value: running_android, max: job_index_android })
   send_event('running_ios',   { value: running_ios, max: job_index_ios })
+
+
+  failed_test_case_tracker_android.each do |failed_test_case, occurrence|
+
+    failed_test_case_tracker_android[failed_test_case] = { label: failed_test_case,
+                                                           value: occurrence }
+
+  end
+
+  send_event('fail_tracker_android', { items: failed_test_case_tracker_android.values })
+
+  failed_test_case_tracker_ios.each do |failed_test_case, occurrence|
+
+    failed_test_case_tracker_ios[failed_test_case] = { label: failed_test_case,
+                                                       value: occurrence }
+
+  end
+
+  send_event('fail_tracker_ios', { items: failed_test_case_tracker_ios.values })
 
 end

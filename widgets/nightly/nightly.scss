@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 // Sass declarations
 // ----------------------------------------------------------------------------
-$background-color:  #222222;
+$background-color:  #0053b8;
 $value-color:       #fff;
 
 $title-color:       rgba(255, 255, 255, 0.7);
@@ -9,16 +9,15 @@ $label-color:       rgba(255, 255, 255, 0.7);
 $moreinfo-color:    rgba(255, 255, 255, 0.7);
 
 // ----------------------------------------------------------------------------
-// Widget-list styles
+// Widget-nightly styles
 // ----------------------------------------------------------------------------
-.widget-list {
+.widget-nightly {
 
   background-color: $background-color;
   vertical-align: top;
 
   .title {
     color: $title-color;
-    margin-bottom: 30px;
   }
 
   ol, ul {
@@ -32,12 +31,11 @@ $moreinfo-color:    rgba(255, 255, 255, 0.7);
   }
 
   li {
-    font-size: 17px;
     margin-bottom: 5px;
   }
 
-  .list-nostyle {
-    list-style: none;
+  .nightly-nostyle {
+    nightly-style: none;
   }
 
   .label {
