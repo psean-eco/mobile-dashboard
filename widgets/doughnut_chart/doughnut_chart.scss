@@ -3,8 +3,9 @@
 // ----------------------------------------------------------------------------
 $background-color:  #303030;
 
-$title-color:     white;
+$device-color:    white;
 $duration-color:  white;
+$title-color:     rgba(255, 255, 255, 0.7);
 $start-color:     rgba(255, 255, 255, 0.7);
 
 // If you want the title at the top, set the position to 'top'
@@ -17,12 +18,12 @@ $title-position:    bottom;
 
   background-color: $background-color;
 
-  .title {
+  .device {
     font-size: 16px;
-    color: $title-color;
+    color: $device-color;
     left: 0;
     right: 0;
-    bottom: 30px;
+    bottom: 40px;
     position: absolute;
   }
 
@@ -34,9 +35,18 @@ $title-position:    bottom;
     position: absolute;
   }
 
+  .title {
+    color: $title-color;
+    font-size: 13px;
+    left: 0;
+    right: 0;
+    bottom: 20px;
+    position: absolute;
+  }
+
   .start {
     color: $start-color;
-    font-size: 16px;
+    font-size: 13px;
     left: 0;
     right: 0;
     bottom: 15px;
