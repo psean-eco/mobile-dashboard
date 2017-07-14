@@ -7,11 +7,11 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
   http = Net::HTTP.new("jenkinsqa.ecobee.com")
 
-  android_job_index = 1
-  ios_job_index = 1
+  job_index_android = 1
+  job_index_ios = 1
 
-  android_currently_running = 0
-  ios_currently_running = 0
+  running_android = 0
+  running_ios = 0
 
   JOBS.each do |job_name|
 
@@ -33,11 +33,11 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
       if job_name.include? "Android"
 
-        android_currently_running += 1
+        running_android += 1
 
       elsif job_name.include? "iOS"
 
-        ios_currently_running += 1
+        running_ios += 1
 
       end
 
@@ -97,9 +97,9 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
       job.gsub! "_", " "
 
-      send_event("doughnutchart_android_" + android_job_index.to_s, { labels: labels, datasets: data, title: job,
-                                                                      start: start, duration: duration, options: options})
-      android_job_index += 1
+      send_event("doughnut_android_" + job_index_android.to_s, { labels: labels, datasets: data, title: job,
+                                                                 start: start, duration: duration, options: options})
+      job_index_android += 1
 
     elsif job.include? "iOS"
 
@@ -107,16 +107,16 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
       job.gsub! "_", " "
 
-      send_event("doughnutchart_ios_" + ios_job_index.to_s, { labels: labels, datasets: data, title: job,
-                                                              start: start, duration: duration, options: options})
+      send_event("doughnut_ios_" + job_index_ios.to_s, { labels: labels, datasets: data, title: job,
+                                                         start: start, duration: duration, options: options})
 
-      ios_job_index += 1
+      job_index_ios += 1
 
     end
 
   end
 
-  send_event('currently_running_android',   { value: android_currently_running, max: android_job_index })
-  send_event('currently_running_ios',   { value: ios_currently_running, max: ios_job_index })
+  send_event('running_android',   { value: running_android, max: job_index_android })
+  send_event('running_ios',   { value: running_ios, max: job_index_ios })
 
 end
