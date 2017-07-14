@@ -10,6 +10,9 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
   android_job_index = 1
   ios_job_index = 1
 
+  android_currently_running = 0
+  ios_currently_running = 0
+
   JOBS.each do |job_name|
 
     # get last run build information (start time etc.)
@@ -25,6 +28,22 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
     results = JSON.parse(response.body)
     status = results["color"]
 
+    # check if current build is running a job
+    if status.include? "_anime"
+
+      if job_name.include? "Android"
+
+        android_currently_running += 1
+
+      elsif job_name.include? "iOS"
+
+        ios_currently_running += 1
+
+      end
+
+    end
+
+    # evaluate latest build status
     if status.include? "disabled"
 
       duration = "disabled"
@@ -90,10 +109,14 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
       send_event("doughnutchart_ios_" + ios_job_index.to_s, { labels: labels, datasets: data, title: job,
                                                               start: start, duration: duration, options: options})
+
       ios_job_index += 1
 
     end
 
   end
+
+  send_event('currently_running_android',   { value: android_currently_running, max: android_job_index })
+  send_event('currently_running_ios',   { value: ios_currently_running, max: ios_job_index })
 
 end
