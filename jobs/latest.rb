@@ -13,7 +13,7 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
   running_android = 0
   running_ios = 0
 
-  JOBS.each do |job_name|
+  JOBS.each do |job_name, device_info|
 
     # get last run build information (start time etc.)
     response = http.request(Net::HTTP::Get.new("/jenkins/view/3.%20Mobile/job/" + job_name + "/lastCompletedBuild/api/json?pretty=true"))
@@ -97,7 +97,7 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
       job.gsub! "_", " "
 
-      send_event("doughnut_android_" + job_index_android.to_s, { labels: labels, datasets: data, title: job,
+      send_event("doughnut_android_" + job_index_android.to_s, { labels: labels, datasets: data, title: job, device: device_info,
                                                                  start: start, duration: duration, options: options})
       job_index_android += 1
 
@@ -107,7 +107,7 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
       job.gsub! "_", " "
 
-      send_event("doughnut_ios_" + job_index_ios.to_s, { labels: labels, datasets: data, title: job,
+      send_event("doughnut_ios_" + job_index_ios.to_s, { labels: labels, datasets: data, title: job, device: device_info,
                                                          start: start, duration: duration, options: options})
 
       job_index_ios += 1

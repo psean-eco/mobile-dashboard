@@ -3,7 +3,7 @@ require 'json'
 require_relative "constants"
 
 # :first_in sets how long it takes before the job is first run. In this case, it is run immediately
-SCHEDULER.every '10m' do
+SCHEDULER.cron '8 0 * * *' do
 
   platform_counts = Hash.new({ value: 0 })
 
@@ -17,7 +17,7 @@ SCHEDULER.every '10m' do
 
   http = Net::HTTP.new("jenkinsqa.ecobee.com")
 
-  JOBS.each do |job_name|
+  JOBS.each do |job_name, device_info|
 
     response = http.request(Net::HTTP::Get.new("/jenkins/view/3.%20Mobile/job/" + job_name + "/api/json?pretty=true"))
     results = JSON.parse(response.body)
