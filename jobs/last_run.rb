@@ -70,23 +70,25 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
     options = { }
 
-    if job_name.include? "Android"
+    job = job_name.dup
 
-      job_name.sub! "Android_", ""
+    if job.include? "Android"
 
-      job_name.gsub! "_", " "
+      job.sub! "Android_", ""
 
-      send_event("doughnutchart_android_" + android_job_index.to_s, { labels: labels, datasets: data, title: job_name,
+      job.gsub! "_", " "
+
+      send_event("doughnutchart_android_" + android_job_index.to_s, { labels: labels, datasets: data, title: job,
                                                                       start: start, duration: duration, options: options})
       android_job_index += 1
 
-    elsif job_name.include? "iOS"
+    elsif job.include? "iOS"
 
-      job_name.sub! "iOS_", ""
+      job.sub! "iOS_", ""
 
-      job_name.gsub! "_", " "
+      job.gsub! "_", " "
 
-      send_event("doughnutchart_ios_" + ios_job_index.to_s, { labels: labels, datasets: data, title: job_name,
+      send_event("doughnutchart_ios_" + ios_job_index.to_s, { labels: labels, datasets: data, title: job,
                                                               start: start, duration: duration, options: options})
       ios_job_index += 1
 

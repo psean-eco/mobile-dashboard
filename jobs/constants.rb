@@ -11,6 +11,6 @@ JOBS = [ "Android_Hyperion_Canary_Test_5.1",
          "iOS_Hyperion_Tests_10.2.1",
          "iOS_Hyperion_Tests_10.3.2",
          "iOS_Hyperion_Tests_9.3.2",
-         "iOS_Hyperion_Installation_Wizard_Test_10.2.1" ]
+         "iOS_Hyperion_Installation_Wizard_Test_10.2.1" ].freeze
 
-PLATFORMS = [ "iOS", "Android" ]
+PLATFORMS = [ "iOS", "Android" ].freeze
