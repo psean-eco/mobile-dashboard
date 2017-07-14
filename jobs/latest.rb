@@ -19,9 +19,13 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
     response = http.request(Net::HTTP::Get.new("/jenkins/view/3.%20Mobile/job/" + job_name + "/lastCompletedBuild/api/json?pretty=true"))
     results = JSON.parse(response.body)
     timestamp = results["timestamp"]
-    start = Time.at(timestamp.to_i / 1000).to_s
+    start = Time.at(timestamp.to_i / 1000)
+    day_of_week = start.strftime("%A")
+
+    start = start.to_s
     start =~ /(.*) (.*)?/
     start = [ $1 << ' ', $2 ][0].strip
+    start = day_of_week + ", " + start
 
     # first get last run status, report appropriate message if disabled, aborted or failed
     response = http.request(Net::HTTP::Get.new("/jenkins/view/3.%20Mobile/job/" + job_name + "/api/json?pretty=true"))
