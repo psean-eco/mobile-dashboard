@@ -100,10 +100,12 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
       # retrieving relevant data
       duration = Time.at(results["duration"]).utc.strftime("%H:%M:%S")
       skip = results["skipCount"]
-      fail = results["failCount"]
 
       # subtract not run from pass
-      pass = (results["passCount"].to_i - not_run.to_i).to_s
+      pass = (results["passCount"].to_i - not_run).to_s
+
+      # add not run to fail
+      fail = (results["failCount"].to_i + not_run).to_s
 
       labels = [ fail, pass, skip ]
 
