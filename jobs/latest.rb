@@ -70,8 +70,16 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
       response = http.request(Net::HTTP::Get.new("/jenkins/view/3.%20Mobile/job/" + job_name + "/lastCompletedBuild/testReport/api/json?pretty=true"))
       results = JSON.parse(response.body)
 
+      not_run = 0
       cases = results["suites"][0]["cases"]
       cases.each do |test_case|
+
+        # track tests that did not run (failed to init)
+        if test_case["name"].nil?
+
+          not_run += 1
+
+        end
 
         if test_case["status"].include? "FAILED"
 
@@ -91,9 +99,11 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
       # retrieving relevant data
       duration = Time.at(results["duration"]).utc.strftime("%H:%M:%S")
-      fail = results["failCount"]
-      pass = results["passCount"]
       skip = results["skipCount"]
+      fail = results["failCount"]
+
+      # subtract not run from pass
+      pass = (results["passCount"].to_i - not_run.to_i).to_s
 
       labels = [ fail, pass, skip ]
 
