@@ -1,34 +1,36 @@
 <script type='text/javascript'>
 $(function() {
-  // These settings override the defaults set in application.coffee. You can do this on a per dashboard basis.
-  // Dashing.gridsterLayout('[{"col":2,"row":1},{"col":1,"row":1},{"col":3,"row":1},{"col":2,"row":2},{"col":3,"row":2},{"col":1,"row":2},{"col":5,"row":1},{"col":4,"row":2},{"col":2,"row":3}]')
   Dashing.widget_base_dimensions = [370, 340]
-  Dashing.numColumns = 5
 });
 </script>
 
 <div class="gridster">
   <ul>
+
     <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
       <div data-view="Clock"></div>
       <i class="fa fa-clock-o icon-background"></i>
     </li>
+
     <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
       <div data-view="Welcome" data-title="Welcome," data-subtitle="to the QA Mobile Dashboard!"></div>
     </li>
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="2">
-      <div data-id="nightly" data-view="List" data-unordered="true" data-title="Nightly Stats" data-moreinfo="pass, fail, and skipped automation tests"></div>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="nightly" data-view="Nightly" data-unordered="true" data-title="Nightly Stats" data-moreinfo="Total automation tests between 7pm - 8am"></div>
     </li>
-    <li data-row="2" data-col="2" data-sizex="1" data-sizey="1">
-      <div data-id="com.ecobee.athenamobile" data-view="PlayRatings" data-title="Android ecobee App"></div>
+
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="running_android" data-view="Meter" data-title="Android" data-height="200" data-width="200" data-min="0" data-max data-suffix="%"></div>
     </li>
     <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-      <div data-id="app_store_rating" data-view="Appstore" data-title="iOS ecobee App"></div>
+      <div data-id="running_ios" data-view="Meter" data-title="iOS" data-height="200" data-width="200" data-min="0" data-max data-suffix="%"></div>
     </li>
+
     <% @count = 1 %>
     <% (1..7).each do |i| %>
         <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
-          <div class="android" data-id="doughnutchart_android_<%= @count %>" data-view ="DoughnutChart" data-title data-start data-duration data-moreinfo></div>
+          <div class="android" data-id="doughnut_android_<%= @count %>" data-view ="DoughnutChart" data-title data-start data-duration data-moreinfo></div>
         </li>
         <% @count += 1 %>
     <% end %>
@@ -36,10 +38,23 @@ $(function() {
     <% @count = 1 %>
     <% (1..7).each do |i| %>
         <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
-          <div class="apple" data-id="doughnutchart_ios_<%= @count %>" data-view ="DoughnutChart" data-title data-start data-duration data-moreinfo></div>
+          <div class="apple" data-id="doughnut_ios_<%= @count %>" data-view ="DoughnutChart" data-title data-start data-duration data-moreinfo></div>
         </li>
         <% @count += 1 %>
     <% end %>
+
+    <li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
+      <div data-id="com.ecobee.athenamobile" data-view="PlayRatings" data-title="Android ecobee App"></div>
+    </li>
+    <li data-row="1" data-col="1" data-sizex="3" data-sizey="1">
+      <div data-id="fail_tracker_android" data-view="List" data-unordered="true" data-title="Android Failed Test Case Breakdown" data-moreinfo style="background-color: rgb(0, 184, 179)"></div>
+    </li>
+    <li data-row="1" data-col="1" data-sizex="3" data-sizey="1">
+      <div data-id="fail_tracker_ios" data-view="List" data-unordered="true" data-title="iOS Failed Test Case Breakdown" data-moreinfo style="background-color: rgb(0, 184, 179)"></div>
+    </li>
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="app_store_rating" data-view="Appstore" data-title="iOS ecobee App"></div>
+    </li>
 
   </ul>
 </div>

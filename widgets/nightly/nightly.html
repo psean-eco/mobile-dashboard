@@ -1,0 +1,19 @@
+<h1 class="title" data-bind="title"></h1>
+
+<ul class="nightly-nostyle">
+  <li>
+    <span class="label">Platform</span>
+    <span class="value">Fail</span>
+    <span class="value">Skip</span>
+    <span class="value">Pass</span>
+  </li>
+  <li data-foreach-item="items">
+    <span class="label" data-bind="item.label"></span>
+    <span class="value" data-bind="item.value_fail"></span>
+    <span class="value" data-bind="item.value_skip"></span>
+    <span class="value" data-bind="item.value_pass"></span>
+  </li>
+</ul>
+
+<p class="more-info" data-bind="moreinfo"></p>
+<p class="updated-at" data-bind="updatedAtMessage"></p>
