@@ -1,0 +1,63 @@
+// ----------------------------------------------------------------------------
+// Sass declarations
+// ----------------------------------------------------------------------------
+$background-color:  #999;
+$title-color:       #FFF;
+
+// ----------------------------------------------------------------------------
+// Widget-play-ratings styles
+// ----------------------------------------------------------------------------
+.widget-play-ratings { 
+  background: $background-color;
+  background-image: url('android_orange.png');
+  background-size: 200px 200px;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  .title {
+    font-size: 30px;
+    font-weight: bold;
+    color: $title-color;
+    opacity: .9
+  }
+
+  .google-rating-container {
+    div > div {
+      font-size: 22px
+    }
+  }
+
+  .google-rating-value {
+    font-size: 90px;
+    color: $title-color;
+    #google-rating-integer-value {
+      font-weight: bold;
+    }
+  }
+
+  .google-voters-count {
+    font-size: 40px;
+    color: $title-color;
+    #google-voters-count-value {
+      font-weight: bold
+    }
+  }
+
+  .star.star-rating-non-editable-container {
+    height: 48px;
+    width: 240px;
+    margin: 0 auto;
+    background-image: url('../assets/star_empty.png');
+    -webkit-background-size: contain;
+    background-size: contain
+  }
+
+  .star .current-rating {
+    height: 48px;
+    width: 0%;
+    background-image: url('../assets/star_full.png');
+    -webkit-background-size: contain;
+    background-size: contain
+  }
+
+}
