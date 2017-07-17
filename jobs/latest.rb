@@ -72,18 +72,10 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
       not_run = 0
       cases = results["suites"][0]["cases"]
-
-      # mark not_run valid if first result is nil, since only setup failures can result in not run
-      if cases[0]["name"].nil?
-
-        not_run_flag = true
-
-      end
-
       cases.each do |test_case|
 
         # track tests that did not run (failed to init)
-        if test_case["name"].nil? and not_run_flag == true
+        if test_case["name"].nil?
 
           not_run += 1
 
