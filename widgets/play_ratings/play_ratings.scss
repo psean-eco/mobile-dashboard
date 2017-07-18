@@ -3,13 +3,14 @@
 // ----------------------------------------------------------------------------
 $background-color:  #999;
 $title-color:       #FFF;
+$background-png:  'android.png';
 
 // ----------------------------------------------------------------------------
 // Widget-play-ratings styles
 // ----------------------------------------------------------------------------
 .widget-play-ratings { 
   background: $background-color;
-  background-image: url('android_orange.png');
+  background-image: url($background-png);
   background-size: 200px 200px;
   background-repeat: no-repeat;
   background-position: center;

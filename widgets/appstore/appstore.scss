@@ -3,17 +3,18 @@
 // ----------------------------------------------------------------------------
 $background-color:  #999;
 $title-color:       #FFF;
+$background-png: 	url('apple.png');
 
 // ----------------------------------------------------------------------------
 // Widget-play-ratings styles
 // ----------------------------------------------------------------------------
 .widget-appstore { 
   background: $background-color;
-  background-image: url('apple.png');
+  background-image: $background-png;
   background-size: 150px 180px;
   background-repeat: no-repeat;
   background-position: center;
-  
+
   .title {
     font-size: 30px;
     font-weight: bold;

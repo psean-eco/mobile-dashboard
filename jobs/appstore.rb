@@ -10,7 +10,7 @@ require 'openssl'
 # of your App by scraping the App Store website.
 
 # Config
-appPageUrl = '/gb/app/asos/id457876088'
+appPageUrl = '/us/app/ecobee/id916985674'
 
 SCHEDULER.every '30m', :first_in => 0 do |job|
   puts "fetching App Store Rating for App: " + appPageUrl
@@ -50,24 +50,12 @@ SCHEDULER.every '30m', :first_in => 0 do |job|
           half = 0.5
         end
         last_version_average_rating += half
-        data[:last_version][:average_rating] = average_rating
-        data[:last_version][:average_rating_detail] =  "%.4f" % last_version_average_rating
+        data[:last_version][:average_rating] = "%.1f" % last_version_average_rating
+        data[:last_version][:average_rating_detail] =  "%.2f" % last_version_average_rating
       else 
         puts 'ERROR::RegEx for last version average rating didn\'t match anything'
       end
     end
-
-
-    puts average_rating
-    puts average_rating
-    puts average_rating
-    puts average_rating
-    puts average_rating
-    puts last_version_average_rating
-    puts last_version_average_rating
-    puts last_version_average_rating
-    puts last_version_average_rating
-    puts last_version_average_rating
 
     # all and last versions voters count 
     if ( voters_count )

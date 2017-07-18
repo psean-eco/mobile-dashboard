@@ -6,8 +6,7 @@ require 'market_bot'
 # Chrome's Google Play url is https://play.google.com/store/apps/details?id=com.android.chrome
 # then Chrome's application package is com.android.chrome
 apps_mapping = [
-  'com.ecobee.athenamobile',
-  'com.snapchat.android'
+  'com.ecobee.athenamobile'
 ]
 
 SCHEDULER.every '60s', :first_in => 0 do |job|
@@ -29,7 +28,7 @@ SCHEDULER.every '60s', :first_in => 0 do |job|
         number_of_votes += rating_distribution[1]
       }
       if number_of_votes > 0
-        rating_detail = "%.4f" % (rating_detail / number_of_votes)
+        rating_detail = "%.2f" % (rating_detail / number_of_votes)
       end
       data[:last_version][:average_rating_detail] = rating_detail
       data[:last_version][:voters_count] = app.votes

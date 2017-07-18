@@ -11,10 +11,18 @@ class Dashing.Appstore extends Dashing.Widget
       "#D26771"
     else 
       "#999999"
- 
+
+  @accessor 'bgImage', ->
+    if @get('last_version.average_rating') >= 4
+      "url('apple_green.png')"
+    else if @get('last_version.average_rating') >= 3
+      "url('apple_orange.png')"
+    else if @get('last_version.average_rating') >= 0
+      "url('apple.png')"
+
   onData: (data) ->
     widget = $(@node)
-    widget.fadeOut().css('background-color', @get('bgColor')).fadeIn()
+    widget.fadeOut().css('background-color', @get('bgColor')).css('background-png', @get('bgImage')).fadeIn()
     last_version = @get('last_version')
     rating = last_version.average_rating
     rating_detail = last_version.average_rating_detail
