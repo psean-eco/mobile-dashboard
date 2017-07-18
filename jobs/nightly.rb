@@ -15,6 +15,8 @@ SCHEDULER.cron '8 0 * * *' do
   ios_fail = 0
   ios_skip = 0
 
+  not_run_flag = true
+
   http = Net::HTTP.new("jenkinsqa.ecobee.com")
 
   JOBS.each do |job_name, device_info|
@@ -47,6 +49,8 @@ SCHEDULER.cron '8 0 * * *' do
           results = JSON.parse(response.body)
 
           not_run = 0
+          flaky_fails = 0
+
           cases = results["suites"][0]["cases"]
           cases.each do |test_case|
 
@@ -55,7 +59,23 @@ SCHEDULER.cron '8 0 * * *' do
 
               not_run += 1
 
+              # to account for flaky, track not run
+              not_run_flag = true
+
             end
+
+          end
+
+          if test_case["status"].include? "FAILED"
+
+              # if previous test case was not run and this is fail, not run is invalid
+              if not_run_flag
+
+                not_run -= 1
+                not_run_flag = false
+                flaky_fails += 1
+
+              end
 
           end
 
@@ -64,7 +84,7 @@ SCHEDULER.cron '8 0 * * *' do
             android_skip = results["skipCount"]
 
             # subtract not run from pass
-            android_pass = (results["passCount"].to_i - not_run).to_s
+            android_pass = (results["passCount"].to_i - not_run - flaky_fails).to_s
 
             # add not run to fail
             android_fail = (results["failCount"].to_i + not_run).to_s
@@ -74,7 +94,7 @@ SCHEDULER.cron '8 0 * * *' do
             ios_skip = results["skipCount"]
 
             # subtract not run from pass
-            ios_pass = (results["passCount"].to_i - not_run).to_s
+            ios_pass = (results["passCount"].to_i - not_run - flaky_fails).to_s
 
             # add not run to fail
             ios_fail = (results["failCount"].to_i + not_run).to_s

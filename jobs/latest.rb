@@ -16,6 +16,8 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
   failed_test_case_tracker_android = Hash.new(0)
   failed_test_case_tracker_ios = Hash.new(0)
 
+  not_run_flag = true
+
   JOBS.each do |job_name, device_info|
 
     data = []
@@ -71,6 +73,8 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
       results = JSON.parse(response.body)
 
       not_run = 0
+      flaky_fails = 0
+
       cases = results["suites"][0]["cases"]
       cases.each do |test_case|
 
@@ -79,9 +83,21 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
           not_run += 1
 
+          # to account for flaky, track not run
+          not_run_flag = true
+
         end
 
         if test_case["status"].include? "FAILED"
+
+          # if previous test case was not run and this is fail, not run is invalid
+          if not_run_flag
+
+            not_run -= 1
+            not_run_flag = false
+            flaky_fails += 1
+
+          end
 
           if job_name.include? "Android"
 
@@ -101,8 +117,8 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
       duration = Time.at(results["duration"]).utc.strftime("%H:%M:%S")
       skip = results["skipCount"]
 
-      # subtract not run from pass
-      pass = (results["passCount"].to_i - not_run).to_s
+      # subtract not run and flaky fails from pass
+      pass = (results["passCount"].to_i - not_run - flaky_fails).to_s
 
       # add not run to fail
       fail = (results["failCount"].to_i + not_run).to_s
