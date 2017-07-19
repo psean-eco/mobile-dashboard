@@ -16,6 +16,9 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
   failed_test_case_tracker_android = Hash.new(0)
   failed_test_case_tracker_ios = Hash.new(0)
 
+  test_case_breakdown_android = Hash.new(0)
+  test_case_breakdown_ios = Hash.new(0)
+
   not_run_flag = true
 
   JOBS.each do |job_name, device_info|
@@ -111,6 +114,47 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
         end
 
+        # gather test case breakdown [category, number]
+        test_class_name = test_case["className"]
+
+        if test_class_name.include? "pytest"
+
+          next
+
+        end
+
+        if test_class_name.include? ".page."
+
+          test_class_name = test_class_name.split(".page.")[1].split(".")[0]
+
+        elsif test_class_name.include? ".common."
+
+          if test_class_name.include? "installation"
+
+            test_class_name = "installation_" + test_class_name.split("ecobee")[1].split(".")[1]
+
+          else
+
+            test_class_name = test_class_name.split(".common.")[1].split(".")[0]
+
+          end
+
+        elsif test_class_name.include? ".e2e."
+
+          test_class_name = test_class_name.split(".e2e.")[1].split(".")[0]
+
+        end
+
+        if job_name.include? "Android"
+
+          test_case_breakdown_android[test_class_name] += 1
+
+        elsif job_name.include? "iOS"
+
+          test_case_breakdown_ios[test_class_name] += 1
+
+        end
+
       end
 
       # retrieving relevant data
@@ -193,5 +237,13 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
   end
 
   send_event('fail_tracker_ios', { items: failed_test_case_tracker_ios.values })
+
+  # automation test breakdown
+
+  test_case_breakdown_android = test_case_breakdown_android.to_a.unshift(["Test Category", "Count"])
+  send_event('pie_android', slices: test_case_breakdown_android)
+
+  test_case_breakdown_ios = test_case_breakdown_ios.to_a.unshift(["Test Category", "Count"])
+  send_event('pie_ios', slices: test_case_breakdown_ios)
 
 end

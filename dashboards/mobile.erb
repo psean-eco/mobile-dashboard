@@ -1,3 +1,8 @@
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+    google.load("visualization", "1", {packages:["corechart"]});
+</script>
+
 <script type='text/javascript'>
 $(function() {
   Dashing.widget_base_dimensions = [370, 340]
@@ -54,6 +59,14 @@ $(function() {
     </li>
     <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
       <div data-id="app_store_rating" data-view="Appstore" data-title="iOS ecobee App"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
+      <div data-id="pie_android" data-view="GooglePie" data-title="Android Test Breakdown"></div>
+    </li>
+
+    <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
+      <div data-id="pie_ios" data-view="GooglePie" data-title="iOS Test Breakdown"></div>
     </li>
 
   </ul>
