@@ -64,9 +64,7 @@ SCHEDULER.cron '8 0 * * *' do
 
             end
 
-          end
-
-          if test_case["status"].include? "FAILED"
+            if test_case["status"].include? "FAILED"
 
               # if previous test case was not run and this is fail, not run is invalid
               if not_run_flag
@@ -76,6 +74,8 @@ SCHEDULER.cron '8 0 * * *' do
                 flaky_fails += 1
 
               end
+
+            end
 
           end
 
