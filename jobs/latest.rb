@@ -88,9 +88,9 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
         end
 
-        if test_case["status"].include? "FAILED"
+        if test_case["status"].include? "FAILED" or test_case["status"].include? "REGRESSION"
 
-          # if previous test case was not run and this is fail, not run is invalid
+          # if previous test case was not run and this is fail or regression, not run is invalid
           if not_run_flag
 
             not_run -= 1
