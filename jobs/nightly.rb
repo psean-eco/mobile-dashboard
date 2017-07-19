@@ -35,7 +35,7 @@ SCHEDULER.cron '8 0 * * *' do
       start = Time.at(timestamp.to_i / 1000)
 
       # only accept builds that ran last night between 7pm and 8am today
-      if ((start.hour.to_i >= 19) or (start.hour.to_i <= 8)) and (start.day.to_i > Time.now.day.to_i - 2)
+      if ((start.hour.to_i >= 19) or (start.hour.to_i <= 8)) and (start.day.to_i > Time.now.day.to_i - 1)
 
         # get run status of build, skip if running, aborted or failed
         status = results["result"]
@@ -81,23 +81,23 @@ SCHEDULER.cron '8 0 * * *' do
 
           if job_name.include? "Android"
 
-            android_skip = results["skipCount"]
+            android_skip += results["skipCount"].to_i
 
             # subtract not run from pass
-            android_pass = (results["passCount"].to_i - not_run - flaky_fails).to_s
+            android_pass += (results["passCount"].to_i - not_run - flaky_fails).to_i
 
             # add not run to fail
-            android_fail = (results["failCount"].to_i + not_run).to_s
+            android_fail += (results["failCount"].to_i + not_run).to_i
 
           elsif job_name.include? "iOS"
 
-            ios_skip = results["skipCount"]
+            ios_skip += results["skipCount"].to_i
 
             # subtract not run from pass
-            ios_pass = (results["passCount"].to_i - not_run - flaky_fails).to_s
+            ios_pass += (results["passCount"].to_i - not_run - flaky_fails).to_i
 
             # add not run to fail
-            ios_fail = (results["failCount"].to_i + not_run).to_s
+            ios_fail += (results["failCount"].to_i + not_run).to_i
 
           end
 
@@ -113,15 +113,15 @@ SCHEDULER.cron '8 0 * * *' do
 
     if platform.include? "Android"
       platform_counts[platform] = { label: platform,
-                                    value_pass: android_pass,
-                                    value_fail: android_fail,
-                                    value_skip: android_skip }
+                                    value_pass: android_pass.to_s,
+                                    value_fail: android_fail.to_s,
+                                    value_skip: android_skip.to_s }
 
     elsif platform.include? "iOS"
       platform_counts[platform] = { label: platform,
-                                    value_pass: ios_pass,
-                                    value_fail: ios_fail,
-                                    value_skip: ios_skip }
+                                    value_pass: ios_pass.to_s,
+                                    value_fail: ios_fail.to_s,
+                                    value_skip: ios_skip.to_s }
 
     end
 
