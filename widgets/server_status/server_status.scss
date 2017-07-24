@@ -1,20 +1,21 @@
 // ----------------------------------------------------------------------------
 // Sass declarations
 // ----------------------------------------------------------------------------
-$background-color:  #0053b8;
-$value-color:       #fff;
+$background-color: #303030;
+$value-color:      #fff;
 
 $title-color:       rgba(255, 255, 255, 0.7);
-$label-color:       rgba(255, 255, 255, 0.7);
+$label-color:       rgba(255, 255, 255, 0.9);
 $moreinfo-color:    rgba(255, 255, 255, 0.7);
 
 // ----------------------------------------------------------------------------
-// Widget-nightly styles
+// Widget-list styles
 // ----------------------------------------------------------------------------
-.widget-nightly {
+.widget-server-status {
 
   background-color: $background-color;
   vertical-align: top;
+  font-size: large;
 
   .title {
     color: $title-color;
@@ -34,8 +35,8 @@ $moreinfo-color:    rgba(255, 255, 255, 0.7);
     margin-bottom: 5px;
   }
 
-  .nightly-nostyle {
-    nightly-style: none;
+  .list-nostyle {
+    list-style: none;
   }
 
   .label {
@@ -57,4 +58,11 @@ $moreinfo-color:    rgba(255, 255, 255, 0.7);
     color: $moreinfo-color;
   }
 
+  .red {
+    color: #c9413c;
+  }
+
+  .green {
+    color: #4BBE79;
+  }
 }

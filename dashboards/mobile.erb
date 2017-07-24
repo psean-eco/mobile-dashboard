@@ -32,8 +32,12 @@ $(function() {
       <div data-id="running_ios" data-view="Meter" data-title="iOS" data-height="200" data-width="200" data-min="0" data-max data-suffix="%"></div>
     </li>
 
+    <li data-row="1" data-col="1" data-sizex="2" data-sizey="1">
+      <div data-id="server_status" data-view="ServerStatus" data-title="Build Server"></div>
+    </li>
+
     <% @count = 1 %>
-    <% (1..7).each do |i| %>
+    <% (1..6).each do |i| %>
         <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
           <div class="android" data-id="doughnut_android_<%= @count %>" data-view ="DoughnutChart" data-title data-start data-duration data-moreinfo></div>
         </li>
@@ -41,7 +45,7 @@ $(function() {
     <% end %>
 
     <% @count = 1 %>
-    <% (1..7).each do |i| %>
+    <% (1..6).each do |i| %>
         <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
           <div class="apple" data-id="doughnut_ios_<%= @count %>" data-view ="DoughnutChart" data-title data-start data-duration data-moreinfo></div>
         </li>
