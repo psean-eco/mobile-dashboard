@@ -3,6 +3,8 @@
 // ----------------------------------------------------------------------------
 $background-color: #303030;
 
+$title-color:       rgba(255, 255, 255, 0.7);
+
 // ----------------------------------------------------------------------------
 // Widget-GoogleGauge styles
 // ----------------------------------------------------------------------------
@@ -12,8 +14,10 @@ $background-color: #303030;
   position: relative;
 
   .title {
+    color: $title-color;
+    font-size: large;
     position: absolute;
-    top: 5px;
+    top: 15px;
     left: 0px;
     right: 0px;
   }
@@ -25,7 +29,7 @@ $background-color: #303030;
   }
 
   text {
-    fill: #FAEFF1;
+    fill: rgba(255, 255, 255, 0.9);
     font-size: 16px;
   }
 

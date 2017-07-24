@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 // Sass declarations
 // ----------------------------------------------------------------------------
-$background-color: #303030;
+$background-color: rgb(70, 21, 155);
 $value-color:      #fff;
 
 $title-color:       rgba(255, 255, 255, 0.7);
@@ -15,14 +15,15 @@ $moreinfo-color:    rgba(255, 255, 255, 0.7);
 
   background-color: $background-color;
   vertical-align: top;
-  font-size: large;
+  font-size: 21px;
 
   .title {
     color: $title-color;
+    font-size: 21px;
   }
 
   ol, ul {
-    margin: 0 15px;
+    margin: 0 30px;
     text-align: left;
     color: $label-color;
   }
