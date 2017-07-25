@@ -4,7 +4,7 @@
 $background-color:  #222222;
 $value-color:       #fff;
 
-$title-color:       rgba(255, 255, 255, 0.7);
+$title-color:       rgba(255, 255, 255, 0.9);
 $label-color:       rgba(255, 255, 255, 0.9);
 $moreinfo-color:    #fff;
 
@@ -18,12 +18,12 @@ $moreinfo-color:    #fff;
   font-size: 21px;
 
   .icon {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.9);
   }
 
   .title {
     color: $title-color;
-    font-size: 21px;
+    font-size: 20px;
   }
 
   ol, ul {
@@ -37,7 +37,7 @@ $moreinfo-color:    #fff;
   }
 
   li {
-    font-size: 21px;
+    font-size: 25px;
     margin-bottom: 5px;
   }
 
