@@ -17,9 +17,12 @@ $moreinfo-color:    #fff;
   vertical-align: top;
   font-size: 21px;
 
+  .icon {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
   .title {
     color: $title-color;
-    margin-bottom: 30px;
     font-size: 21px;
   }
 
@@ -40,6 +43,7 @@ $moreinfo-color:    #fff;
 
   .list-nostyle {
     list-style: none;
+    margin-top: 30px;
   }
 
   .label {

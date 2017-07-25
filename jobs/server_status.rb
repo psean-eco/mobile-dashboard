@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require 'net/http'
 require 'uri'
+require 'openssl'
 
 # Check whether a server is responding
 # you can set a server to check via http request or ping
@@ -14,9 +15,9 @@ require 'uri'
 
 servers = [{name: 'Android (Develop)', job_name: 'ecobee3%20Mobile%20Android%20(Develop)', method: 'status'},
 					 {name: 'Android (version 4.0.0 beta-1-CFT1)', job_name: 'ecobee3%20Mobile%20Android%20(version%204.0.0%20beta-1-CFT1)', method: 'status'},
-					 {name: 'iOS (Beta Ad-hoc)', job_name: 'Native%20iOS/job/Native%20iOS%20(develop)', method: 'status'},
-					 {name: 'iOS (Develop Ad-hoc)', job_name: 'Native%20iOS/job/Native%20iOS%20(develop)', method: 'status'},
-					 {name: 'iOS (Release Ad-hoc)', job_name: 'Native%20iOS/job/Native%20iOS%20(develop)', method: 'status'}]
+					 {name: 'iOS (Beta Ad-hoc)', job_name: 'Beta Ad-Hoc (develop)', method: 'status'},
+					 {name: 'iOS (Aqua Ad-hoc)', job_name: 'Aqua Ad-Hoc (develop)', method: 'status'},
+					 {name: 'iOS (Prod Ad-hoc)', job_name: 'Prod Ad-Hoc (develop)', method: 'status'}]
 
 http = Net::HTTP.new("mobile-ci-server.ecobee.com", "8080")
 
@@ -27,7 +28,30 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 	# check status for each server
 	servers.each do |server|
 
-    if server[:job_name].include? "Android"
+
+    if server[:name].include? "iOS"
+
+			url = "https://10.10.2.34:20343/api/bots"
+			uri = URI(url)
+
+			OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+			response = Net::HTTP.get(uri)
+			results = JSON.parse(response)["results"]
+      result = 0
+
+      results.each do |result_each|
+
+        if result_each["name"].include? server[:job_name] and result_each["integration_counter"] > 1
+
+          result = 1
+          break
+
+        end
+
+      end
+
+    elsif server[:name].include? "Android"
+
 			request = Net::HTTP::Get.new("/view/Android%20Mobile/job/" + server[:job_name] + "/lastCompletedBuild/api/json?pretty=true")
 			request.basic_auth("qauser", "passwordQA1")
       response = http.request(request)
@@ -35,26 +59,34 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
       status = results["result"]
 
 			if status == "SUCCESS"
+
 				result = 1
-			else
+
+      else
+
 				result = 0
+
       end
 
 		end
 
 		if result == 1
+
 			arrow = "icon-ok-sign"
 			color = "green"
-		else
+
+    else
+
 			arrow = "icon-warning-sign"
 			color = "red"
+
 		end
 
-    tmp = {label: server[:name], value: result, arrow: arrow, color: color}
-    puts tmp
 		statuses.push({label: server[:name], value: result, arrow: arrow, color: color})
+
 	end
 
 	# print statuses to dashboard
 	send_event('server_status', {items: statuses})
+
 end
