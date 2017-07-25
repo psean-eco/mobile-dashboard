@@ -14,8 +14,8 @@ require 'openssl'
 # return false
 
 servers = [{name: 'Android (Develop)', job_name: 'ecobee3%20Mobile%20Android%20(Develop)', method: 'status'},
-					 {name: 'Android (Develop-CFT2)', job_name: 'ecobee3%20Mobile%20Android%20(Develop-CFT2)', method: 'status'},
-					 {name: 'Android (version 4.0.0 beta-1-CFT1)', job_name: 'ecobee3%20Mobile%20Android%20(version%204.0.0%20beta-1-CFT1)', method: 'status'},
+					 {name: 'Android (Develop-EFT3)', job_name: 'ecobee3%20Mobile%20Android%20(Develop-EFT3)', method: 'status'},
+					 {name: 'Android (version 4.0.0 beta-EFT3)', job_name: 'ecobee3%20Mobile%20Android%20(version%204.0.0%20beta-EFT3)', method: 'status'},
 					 {name: 'iOS (Beta Ad-hoc)', job_name: 'Beta Ad-Hoc (develop)', method: 'status'},
 					 {name: 'iOS (Aqua Ad-hoc)', job_name: 'Aqua Ad-Hoc (develop)', method: 'status'},
 					 {name: 'iOS (Prod Ad-hoc)', job_name: 'Prod Ad-Hoc (develop)', method: 'status'}]
