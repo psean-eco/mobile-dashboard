@@ -92,23 +92,30 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
         end
 
-        if test_case["status"].include? "FAILED" or test_case["status"].include? "REGRESSION" or test_case["status"].include? "PASSED"
+        if not_run_flag
 
           # if previous test case was not run and this is fail or regression or pass, not run is invalid
-          if not_run_flag
+          if test_case["status"].include? "FAILED" or test_case["status"].include? "REGRESSION"
 
-            not_run -= 1
-            not_run_flag = false
-            flaky += 1
+            if test_case["status"].include? "PASSED"
 
-            # if next test case after flaky is not PASS, interpret as failed
-            if not test_case["status"].include? "PASSED"
+              not_run_flag = false
+              flaky += 1
+
+            # if next test case after flaky is fail or regression or nil, interpret as failed
+            else
 
               flaky_fails += 1
 
             end
 
+            not_run -= 1
+
           end
+
+        end
+
+        if test_case["status"].include? "FAILED" or test_case["status"].include? "REGRESSION"
 
           if job_name.include? "Android"
 
