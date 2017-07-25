@@ -77,6 +77,7 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
       not_run = 0
       flaky_fails = 0
+      flaky = 0
 
       cases = results["suites"][0]["cases"]
       cases.each do |test_case|
@@ -98,6 +99,7 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
             not_run -= 1
             not_run_flag = false
+            flaky += 1
 
             # if next test case after flaky is not PASS, interpret as failed
             if not test_case["status"].include? "PASSED"
@@ -173,21 +175,23 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
       # add not run to fail
       fail = (results["failCount"].to_i + not_run).to_s
 
-      labels = [ fail, pass, skip ]
+      labels = [ fail, pass, skip, flaky ]
 
       data = [
           {
-              data: [ fail, pass, skip ],
+              data: [ fail, pass, skip, flaky ],
               backgroundColor: [
                   '#c9413c',
                   '#4bbe79',
                   '#727272',
+                  '#FDC730'
               ],
               hoverBackgroundColor: [
                   '#e9b1af',
                   '#b4e4c7',
                   '#cccccc',
-                ],
+                  '#f2db9b'
+              ],
           },
       ]
 
