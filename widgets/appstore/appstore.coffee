@@ -8,7 +8,7 @@ class Dashing.Appstore extends Dashing.Widget
     else if @get('last_version.average_rating') >= 3
       "#ff9618"
     else if @get('last_version.average_rating') >= 0
-      "#D26771"
+      "#d13f3d"
     else 
       "#999999"
 
