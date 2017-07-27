@@ -3,7 +3,7 @@ require 'json'
 require_relative "constants"
 
 # :first_in sets how long it takes before the job is first run. In this case, it is run immediately
-SCHEDULER.every '1m', :first_in => 0 do |job|
+SCHEDULER.every '30s', :first_in => 0 do |job|
 
   http = Net::HTTP.new("jenkinsqa.ecobee.com")
 
@@ -77,38 +77,28 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
       not_run = 0
       flaky_fails = 0
-      flaky = 0
+      flaky_pass = 0
 
       cases = results["suites"][0]["cases"]
-      cases.each do |test_case|
+      cases.each_with_index do |test_case, i|
 
-        # track tests that did not run (failed to init)
         if test_case["name"].nil?
 
+          # to account for flaky, track not run
           not_run += 1
 
-          # to account for flaky, track not run
-          not_run_flag = true
-
-        end
-
-        if not_run_flag
-
-          # if previous test case was not run and this is fail or regression or pass, not run is invalid
-          if test_case["status"].include? "FAILED" or test_case["status"].include? "REGRESSION"
-
-            if test_case["status"].include? "PASSED"
-
-              not_run_flag = false
-              flaky += 1
+          if cases[i+1]["status"].include? "FAILED" or cases[i+1]["status"].include? "REGRESSION"
 
             # if next test case after flaky is fail or regression or nil, interpret as failed
-            else
+            flaky_fails += 1
+            not_run -= 1
 
-              flaky_fails += 1
+          end
 
-            end
+          if cases[i+1]["status"].include? "PASSED" or cases[i+1]["status"].include? "FIXED"
 
+            # if next test case after flaky is pass, increment flaky pass
+            flaky_pass += 1
             not_run -= 1
 
           end
@@ -177,16 +167,16 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
       skip = results["skipCount"]
 
       # subtract not run and flaky fails from pass
-      pass = (results["passCount"].to_i - not_run - flaky_fails).to_s
+      pass = (results["passCount"].to_i - not_run - flaky_fails - flaky_pass).to_s
 
       # add not run to fail
       fail = (results["failCount"].to_i + not_run).to_s
 
-      labels = [ fail, pass, skip, flaky ]
+      labels = [ fail, pass, skip, flaky_pass ]
 
       data = [
           {
-              data: [ fail, pass, skip, flaky ],
+              data: [ fail, pass, skip, flaky_pass ],
               backgroundColor: [
                   '#c9413c',
                   '#4bbe79',
