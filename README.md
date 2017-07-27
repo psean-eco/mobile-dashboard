@@ -1,6 +1,7 @@
 Some resources for starting your own Dashing/Smashing Dashboard:
 
 Official Dashing webapage: http://dashing.io/
+
 Which links to the Dashing wiki: https://github.com/Shopify/dashing/wiki
 
 If you are interested in explroing the potenital for a Dashing Dashboard, here is a quick link to some of the widgets avaialable (although you can always make your own!): 
