@@ -223,8 +223,8 @@ SCHEDULER.every '30s', :first_in => 0 do |job|
 
   end
 
-  send_event('running_android',   { value: running_android, max: job_index_android })
-  send_event('running_ios',   { value: running_ios, max: job_index_ios })
+  send_event('running_android',   { value: running_android, max: job_index_android, moreinfo: "Currently Running Jobs"  })
+  send_event('running_ios',   { value: running_ios, max: job_index_ios, moreinfo: "Currently Running Jobs" })
 
 
   failed_test_case_tracker_android.each do |failed_test_case, occurrence|

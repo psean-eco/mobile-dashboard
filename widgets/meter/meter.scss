@@ -4,7 +4,7 @@
 $background-color:  #9c4274;
 
 $title-color:       rgba(255, 255, 255, 0.7);
-$moreinfo-color:    rgba(255, 255, 255, 0.3);
+$moreinfo-color:    #fff;
 
 $meter-background:  darken($background-color, 15%);
 
@@ -26,6 +26,7 @@ $meter-background:  darken($background-color, 15%);
 
   .more-info {
     color: $moreinfo-color;
+    font-size: 20px;
   }
 
   .updated-at {

@@ -4,7 +4,7 @@
 $background-color: #543787;
 $value-color:      #fff;
 
-$title-color:       rgba(255, 255, 255, 0.7);
+$title-color:       #fff;
 $label-color:       rgba(255, 255, 255, 0.9);
 $moreinfo-color:    rgba(255, 255, 255, 0.7);
 
@@ -24,7 +24,8 @@ $moreinfo-color:    rgba(255, 255, 255, 0.7);
 
   .title {
     color: $title-color;
-    font-size: 21px;
+    font-size: 40px;
+    padding-left:10px;  
   }
 
   ol, ul {
