@@ -34,11 +34,25 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
 			url = "https://10.10.2.34:20343/api/bots"
 			uri = URI(url)
+			result = 0
 
 			OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+
+			begin
+
+				 Net::HTTP.get(uri)
+
+      rescue StandardError
+
+				arrow = "icon-warning-sign"
+				color = "red"
+				statuses.push({label: server[:name], value: result, arrow: arrow, color: color})
+        next
+
+			end
+
 			response = Net::HTTP.get(uri)
 			results = JSON.parse(response)["results"]
-      result = 0
 
       results.each do |result_each|
 
