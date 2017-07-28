@@ -87,15 +87,18 @@ SCHEDULER.every '30s', :first_in => 0 do |job|
           # to account for flaky, track not run
           not_run += 1
 
-          if cases[i+1]["status"].include? "FAILED" or cases[i+1]["status"].include? "REGRESSION"
+          if cases[i+1]["status"].include? "FAILED" or cases[i+1]["status"].include? "REGRESSION" or cases[i+1]["name"].nil?
 
             # if next test case after flaky is fail or regression or nil, interpret as failed
             flaky_fails += 1
             not_run -= 1
 
-          end
+          elsif cases[i-1]["name"].nil? and cases[i+1]["status"].include? "PASSED"
 
-          if cases[i+1]["status"].include? "PASSED" or cases[i+1]["status"].include? "FIXED"
+            flaky_fails += 1
+            not_run -= 1
+
+          elsif (cases[i+1]["status"].include? "PASSED" or cases[i+1]["status"].include? "FIXED") and not cases[i+1]["name"].nil?
 
             # if next test case after flaky is pass, increment flaky pass
             flaky_pass += 1
