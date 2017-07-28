@@ -1,5 +1,5 @@
 JOBS = { "Android_Hyperion_Distribution_Test" => "Multiple Devices",
-         "Android_Hyperion_Test_5.1" => "Galaxy S5 - Android 5.1",
+         "Android_Hyperion_Test_5.1.1" => "Nexus 4 - Android 5.1.1",
          "Android_Hyperion_Test_6.0" => "Moto E - Android 6.0",
          "Android_Hyperion_Test_6.0.1" => "One Plus Two - Android 6.0.1",
          "Android_Hyperion_Test_7.1.1" => "Nexus 5X - Android 7.1.1",
