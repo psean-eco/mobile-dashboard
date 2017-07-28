@@ -19,8 +19,6 @@ SCHEDULER.every '30s', :first_in => 0 do |job|
   test_case_breakdown_android = Hash.new(0)
   test_case_breakdown_ios = Hash.new(0)
 
-  not_run_flag = true
-
   JOBS.each do |job_name, device_info|
 
     data = []
@@ -75,7 +73,6 @@ SCHEDULER.every '30s', :first_in => 0 do |job|
       response = http.request(Net::HTTP::Get.new("/jenkins/view/3.%20Mobile/job/" + job_name + "/lastCompletedBuild/testReport/api/json?pretty=true"))
       results = JSON.parse(response.body)
 
-      not_run = 0
       flaky_fails = 0
       flaky_pass = 0
 
@@ -84,25 +81,23 @@ SCHEDULER.every '30s', :first_in => 0 do |job|
 
         if test_case["name"].nil?
 
-          # to account for flaky, track not run
-          not_run += 1
+          if cases[i+1]["status"].include? "SKIPPED"
 
-          if cases[i+1]["status"].include? "FAILED" or cases[i+1]["status"].include? "REGRESSION" or cases[i+1]["name"].nil?
+            next
+
+          elsif cases[i+1]["status"].include? "FAILED" or cases[i+1]["status"].include? "REGRESSION" or cases[i+1]["name"].nil?
 
             # if next test case after flaky is fail or regression or nil, interpret as failed
             flaky_fails += 1
-            not_run -= 1
 
           elsif cases[i-1]["name"].nil? and cases[i+1]["status"].include? "PASSED"
 
             flaky_fails += 1
-            not_run -= 1
 
           elsif (cases[i+1]["status"].include? "PASSED" or cases[i+1]["status"].include? "FIXED") and not cases[i+1]["name"].nil?
 
             # if next test case after flaky is pass, increment flaky pass
             flaky_pass += 1
-            not_run -= 1
 
           end
 
@@ -170,10 +165,10 @@ SCHEDULER.every '30s', :first_in => 0 do |job|
       skip = results["skipCount"]
 
       # subtract not run and flaky fails from pass
-      pass = (results["passCount"].to_i - not_run - flaky_fails - flaky_pass).to_s
+      pass = (results["passCount"].to_i - flaky_fails - flaky_pass).to_s
 
       # add not run to fail
-      fail = (results["failCount"].to_i + not_run).to_s
+      fail = (results["failCount"].to_i + flaky_fails).to_s
 
       labels = [ fail, pass, skip, flaky_pass ]
 
