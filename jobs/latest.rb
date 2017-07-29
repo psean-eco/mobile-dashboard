@@ -99,6 +99,16 @@ SCHEDULER.every '30s', :first_in => 0 do |job|
             # if next test case after flaky is pass, increment flaky pass
             flaky_pass += 1
 
+            if job_name.include? "Android"
+
+              failed_test_case_tracker_android["[ Flaky Pass ] " + cases[i+1]["className"]] += 1
+
+            elsif job_name.include? "iOS"
+
+              failed_test_case_tracker_ios["[ Flaky Pass ] " + cases[i+1]["className"]] += 1
+
+            end
+
           end
 
         end
@@ -107,11 +117,11 @@ SCHEDULER.every '30s', :first_in => 0 do |job|
 
           if job_name.include? "Android"
 
-            failed_test_case_tracker_android[test_case["className"]] += 1
+            failed_test_case_tracker_android["[ Fail ] " + test_case["className"]] += 1
 
           elsif job_name.include? "iOS"
 
-            failed_test_case_tracker_ios[test_case["className"]] += 1
+            failed_test_case_tracker_ios["[ Fail ] " +test_case["className"]] += 1
 
           end
 
