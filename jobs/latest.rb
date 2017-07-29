@@ -79,7 +79,7 @@ SCHEDULER.every '30s', :first_in => 0 do |job|
       cases = results["suites"][0]["cases"]
       cases.each_with_index do |test_case, i|
 
-        if test_case["name"].nil?
+        if test_case["name"].nil? and not cases[i+1].nil?
 
           if cases[i+1]["status"].include? "SKIPPED"
 
