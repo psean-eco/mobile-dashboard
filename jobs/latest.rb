@@ -79,15 +79,23 @@ SCHEDULER.every '30s', :first_in => 0 do |job|
       cases = results["suites"][0]["cases"]
       cases.each_with_index do |test_case, i|
 
-        if test_case["name"].nil? and not cases[i+1].nil?
+        if test_case["name"].nil?
+
+          if cases[i+1].nil?
+
+            # if end of list, interpret as failed
+            flaky_fails += 1
+            next
+
+          end
 
           if cases[i+1]["status"].include? "SKIPPED"
 
             next
 
-          elsif cases[i+1]["status"].include? "FAILED" or cases[i+1]["status"].include? "REGRESSION" or cases[i+1]["name"].nil?
+          elsif cases[i+1]["name"].nil?
 
-            # if next test case after flaky is fail or regression or nil, interpret as failed
+            # if next test case after is nil, interpret as failed
             flaky_fails += 1
 
           elsif cases[i-1]["name"].nil? and cases[i+1]["status"].include? "PASSED"
